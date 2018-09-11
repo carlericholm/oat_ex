@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Some users</title>
+	<style type="text/css">
+		table
+		{
+			border: 1px solid black;
+		}
+	</style>
+	
+</head>
+<body>
+	<h1>Displaying users</h1>
+	<table id="tableau"></table>
+
+
+	<script type="text/javascript">
+		
+
+		var tableau = document.getElementById('tableau');
+		var row = document.createElement('TR');
+		var data1 = document.createElement('TD');
+		var data2 = document.createElement('TD');
+		var data3 = document.createElement('TD');
+		data1.textContent = "userId";
+		data2.textContent = "firstName";
+		data3.textContent = "lastName";
+
+		row.appendChild(data1);
+		row.appendChild(data2);
+		row.appendChild(data3);
+		tableau.appendChild(row);
+		
+
+// Create a request variable and assign a new XMLHttpRequest object to it.
+var request = new XMLHttpRequest();
+
+// Open a new connection, using the GET request on the URL endpoint
+request.open('GET', 'https://hr.oat.taocloud.org/v1/users', true);
+
+request.onload = function () {
+  	var data = JSON.parse(this.response);
+
+	if (request.status >= 200 && request.status < 400) {
+    data.forEach(users => {
+    	var row = document.createElement('TR');
+		var data1 = document.createElement('TD');
+		var data2 = document.createElement('TD');
+		var data3 = document.createElement('TD');
+		data1.textContent = users.userId;
+		data2.textContent = users.firstName;
+		data3.textContent = users.lastName;
+
+		row.appendChild(data1);
+		row.appendChild(data2);
+		row.appendChild(data3);
+		tableau.appendChild(row);
+      console.log(users);
+    });
+  } else {
+    console.log('error');
+  }
+}
+
+
+// Send request
+request.send();
+
+	</script>
+</body>
+</html>
